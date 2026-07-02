@@ -402,6 +402,15 @@ ul {
   object-fit: cover;
   object-position: center top;
   display: block;
+  pointer-events: none;
+}
+
+.hero-img::-webkit-media-controls,
+.hero-img::-webkit-media-controls-panel,
+.hero-img::-webkit-media-controls-panel-container,
+.hero-img::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
 }
 
 .hero-img--1 {
