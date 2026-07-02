@@ -153,7 +153,9 @@
         </picture>
         <video
           class="hero-img hero-img--2"
+          autoplay
           muted
+          loop
           playsinline
           disablepictureinpicture
           preload="auto"
@@ -2158,20 +2160,15 @@
         if (heroImgs.length < 2) return;
         if (reducedMotion) return;
 
-        /* HOLDS en ms; null = esperar evento ended del video */
-        var HOLDS = [4000, null];
+        var HOLDS = [4000, 8000];
         var FADE  = 1000;
         var idx   = 0;
 
-        /* Inicializar: solo --1 visible; video pausado al inicio */
+        /* Inicializar: solo --1 visible; video corre en fondo (opacity 0) */
         heroImgs.forEach(function (img, i) {
           img.style.transition = 'none';
           img.style.zIndex     = i === 0 ? '1' : '0';
           img.style.opacity    = i === 0 ? '1' : '0';
-          if (img.tagName === 'VIDEO') {
-            img.pause();
-            img.currentTime = 0;
-          }
         });
 
         function advance() {
@@ -2184,7 +2181,8 @@
           /* Si la entrante es video: reiniciar y reproducir */
           if (toEl.tagName === 'VIDEO') {
             toEl.currentTime = 0;
-            toEl.play();
+            var p = toEl.play();
+            if (p && p.catch) p.catch(function () {});
           }
 
           /* Colocar entrante encima, invisible */
